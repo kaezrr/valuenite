@@ -1,5 +1,5 @@
 # Valuenite
-A simple python program to find out the total value of your Playnite library based on Steam prices.
+A simple python program to find out the total value of your Playnite library based on Steam prices. If a game is not available on Steam or Steam API doesn't recognise the name, it's value will not be considered.
 
 ### Prerequisites
 To use this program, you need to have a `playnite_data.csv` file that contains the names of all your games in your Playnite library.

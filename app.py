@@ -1,7 +1,9 @@
 from csv import DictReader
 import requests
 import time
+import re
 
+pattern = re.compile('[\W_]')
 
 def main():
 
@@ -15,7 +17,7 @@ def main():
     with open('playnite_data.csv', encoding='utf-8-sig') as file:
         reader = DictReader(file)
         for row in reader:
-            games.append(row['Name'])
+            games.append(pattern.sub('', row['Name']).lower())
     
     counter = 0
     for game in games:
@@ -32,14 +34,14 @@ def main():
 
     for item in splits:
         tup = get_price(item)
-        highest += round(tup[0], 2)
-        lowest += round(tup[1], 2)
+        highest += tup[0]
+        lowest += tup[1]
 
     print(f"""
-    Total games in Playnite library: {len(games)}
-    Total games identified in Steam: {len(app_ids)}
-    Maximum value of library: ${highest}
-    Minimum value of library: ${lowest}
+    Number of games in Playnite library: {len(games)}
+    Number of games identified by Steam: {len(app_ids)}
+    Maximum value of library: ${round(highest, 2)}
+    Minimum value of library: ${round(lowest, 2)}
         
     Time taken to execute: {round(time.time() - start_time, 3)}s
     """)            
@@ -75,18 +77,20 @@ def get_apps():
     response = requests.get(base_url)
 
     if response.status_code == 200:
-        data = response.json()
-        return data['applist']['apps']
+        data = response.json()['applist']['apps']
+        for name in data:
+            name['name'] = pattern.sub('', name['name']).lower()
+
+        return data
     
     return None
 
 
 def get_id(name):
     for app in apps:
-        if app['name'] == name:
+        if name == app['name']:
             return str(app['appid'])
-    
     return None
-        
+      
 
 main()
