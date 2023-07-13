@@ -1,4 +1,4 @@
-# ValueNite
+# Valuenite
 A simple python program to find out the total value of your Playnite library based on Steam prices.
 
 ### Prerequisites
