@@ -1,8 +1,12 @@
 from csv import DictReader
 import requests
+import time
 
 
 def main():
+
+    start_time = time.time()
+
     global apps 
     apps = get_apps()
     games, app_ids = [], []
@@ -33,10 +37,12 @@ def main():
 
     print(f"""
     Total games in Playnite library: {len(games)}
-    Total games identified in Steam:{len(app_ids)}
-    Highest value of library: ${highest}
-    Lowest value of library: ${lowest}
-        """)            
+    Total games identified in Steam: {len(app_ids)}
+    Maximum value of library: ${highest}
+    Minimum value of library: ${lowest}
+        
+    Time taken to execute: {round(time.time() - start_time, 3)}s
+    """)            
 
 
 def get_price(id):
