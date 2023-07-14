@@ -1,1 +1,5 @@
 playnite_data.csv
+/build
+/dist
+icon.ico
+gui.spec

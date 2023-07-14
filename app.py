@@ -5,7 +5,7 @@ import re
 
 pattern = re.compile('[\W_]')
 
-def main():
+def main(path):
 
     start_time = time.time()
 
@@ -14,7 +14,7 @@ def main():
     games, app_ids = [], []
     highest, lowest = 0, 0
 
-    with open('playnite_data.csv', encoding='utf-8-sig') as file:
+    with open(path, encoding='utf-8-sig') as file:
         reader = DictReader(file)
         for row in reader:
             games.append(pattern.sub('', row['Name']).lower())
@@ -37,14 +37,7 @@ def main():
         highest += tup[0]
         lowest += tup[1]
 
-    print(f"""
-    Number of games in Playnite library: {len(games)}
-    Number of games identified by Steam: {len(app_ids)}
-    Maximum value of library: ${round(highest, 2)}
-    Minimum value of library: ${round(lowest, 2)}
-        
-    Time taken to execute: {round(time.time() - start_time, 3)}s
-    """)            
+    return f"Number of games in Playnite library: {len(games)}\nNumber of games identified by Steam: {len(app_ids)}\nMaximum value of library: ${round(highest, 2)}\nMinimum value of library: ${round(lowest, 2)}\n\nTime taken to execute: {round(time.time() - start_time, 3)}s"            
 
 
 def get_price(id):
@@ -92,5 +85,3 @@ def get_id(name):
             return str(app['appid'])
     return None
       
-
-main()
